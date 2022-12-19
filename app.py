@@ -46,9 +46,9 @@ def registro(usuario, contrasenia):
                     if id_nombre == id_contraseña:
                         modo = True
     if modo == True:
-        return Response(status=HTTPStatus.OK)
+        return jsonify({"OK": "Usted fue logueado con exito"}), HTTPStatus.OK
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT                                          
+        return jsonify({"ERROR": "Usuario y/o Contraseña incorrectos"}), HTTPStatus.BAD_REQUEST                                          
 
 
 
@@ -61,7 +61,7 @@ def alldirectores():
             listadirectores.append(pelicula["director"])
         return listadirectores
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 
@@ -75,7 +75,7 @@ def directores(director):
                 director_peliculas.append(pelicula["title"])
         return director_peliculas
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 
@@ -88,7 +88,7 @@ def generos():
             listageneros.append(pelicula["genero"])
         return listageneros
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 
@@ -102,7 +102,7 @@ def conportada():
                 lista_portada.append(pelicula["title"])        
         return lista_portada
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 
@@ -128,9 +128,9 @@ def crear_pelicula():
             }
             peliculas.append(pelicula)
             return pelicula, HTTPStatus.OK
-        return jsonify({"Error": "Esa pelicula ya esta creada"}), HTTPStatus.BAD_REQUEST
+        return jsonify({"ERROR": "Esa pelicula ya esta creada"}), HTTPStatus.BAD_REQUEST
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT 
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN 
 
 
 #Crear comentario
@@ -149,9 +149,9 @@ def comentar(id):
                     }
                     comentarios.append(comentario)
                     return jsonify({"OK":"Se ha creado el comentario"}), HTTPStatus.OK
-        return jsonify({"Error": "No hay pelicula con ese ID"}), HTTPStatus.BAD_REQUEST
+        return jsonify({"ERROR": "No hay pelicula con ese ID"}), HTTPStatus.BAD_REQUEST
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 #Ver peliculas
@@ -163,25 +163,25 @@ def allpeliculas():
             todas_peliculas.append(pelicula)
         return todas_peliculas
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT 
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN 
 
 
 
 #Borrar pelicula
-@app.route("/delete/<id>", methods=["DELETE"])
+@app.route("/delete/<id>", methods=["GET", "DELETE"])
 def borrarpeliculas(id):
     if modo == True:
         contador = 0
         for pelicula in peliculas:
             if pelicula["id"] == int(id):
                 if len(pelicula["comentarios"]) != 0:
-                    return jsonify({"ERROR": "No se logro borrar"}), HTTPStatus.NO_CONTENT
+                    return jsonify({"ERROR": "No se logro borrar"}), HTTPStatus.BAD_REQUEST
                 else:
                     peliculas.pop(contador)
                     return jsonify({"OK": "Se ha borrado la pelicula"}), HTTPStatus.OK
             contador += 1
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
 
 
 
@@ -216,4 +216,4 @@ def edicion(id):
                         }
                         return jsonify({'mensaje':'good'}), HTTPStatus.OK
     else:
-        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.FORBIDDEN  
