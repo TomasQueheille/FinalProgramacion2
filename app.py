@@ -48,7 +48,7 @@ def registro(usuario, contrasenia):
     if modo == True:
         return Response(status=HTTPStatus.OK)
     else:
-        return "<h1>Usuario/Contraseña no encontrados</h1>"                                          
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT                                          
 
 
 
@@ -61,7 +61,7 @@ def alldirectores():
             listadirectores.append(pelicula["director"])
         return listadirectores
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 
@@ -75,7 +75,7 @@ def directores(director):
                 director_peliculas.append(pelicula["title"])
         return director_peliculas
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 
@@ -88,7 +88,7 @@ def generos():
             listageneros.append(pelicula["genero"])
         return listageneros
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 
@@ -102,7 +102,7 @@ def conportada():
                 lista_portada.append(pelicula["title"])        
         return lista_portada
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 
@@ -130,7 +130,7 @@ def crear_pelicula():
             return pelicula, HTTPStatus.OK
         return jsonify({"Error": "Esa pelicula ya esta creada"}), HTTPStatus.BAD_REQUEST
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT 
 
 
 #Crear comentario
@@ -151,7 +151,7 @@ def comentar(id):
                     return jsonify({"OK":"Se ha creado el comentario"}), HTTPStatus.OK
         return jsonify({"Error": "No hay pelicula con ese ID"}), HTTPStatus.BAD_REQUEST
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 #Ver peliculas
@@ -163,7 +163,7 @@ def allpeliculas():
             todas_peliculas.append(pelicula)
         return todas_peliculas
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT 
 
 
 
@@ -181,7 +181,7 @@ def borrarpeliculas(id):
                     return jsonify({"OK": "Se ha borrado la pelicula"}), HTTPStatus.OK
             contador += 1
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
 
 
 
@@ -216,4 +216,4 @@ def edicion(id):
                         }
                         return jsonify({'mensaje':'good'}), HTTPStatus.OK
     else:
-        return "<h1> No estas logueado</h1>"
+        return jsonify({"ERROR": "No estas logueado"}), HTTPStatus.NO_CONTENT  
